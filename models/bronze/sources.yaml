@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: source_crm
+    schema: source_crm
+    tables:
+      - name: cust_info
+      - name: prd_info
+      - name: sales_details
+
+  - name: source_erp
+    schema: source_erp
+    tables:
+      - name: cust_az12
+      - name: loc_a101
+      - name: px_cat_g1v2

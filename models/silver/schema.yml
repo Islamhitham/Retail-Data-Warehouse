@@ -1,0 +1,114 @@
+version: 2
+
+models:
+  - name: cln_crm_cust_info
+    description: "Cleaned CRM customer data – deduplicated, standardised gender & marital status"
+    columns:
+      - name: cst_id
+        description: "Customer unique identifier"
+        tests:
+          - not_null
+          - unique
+      - name: cst_key
+        description: "Customer natural key"
+        tests:
+          - not_null
+      - name: cst_firstname
+        tests:
+          - not_null
+      - name: cst_lastname
+        tests:
+          - not_null
+      - name: cst_marital_status
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Single', 'Married', 'n/a']
+      - name: cst_gndr
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Male', 'Female', 'n/a']
+
+  - name: cln_crm_prd_info
+    description: "Cleaned CRM product data – category split, cost defaulted to 0, SCD end dates derived"
+    columns:
+      - name: prd_id
+        description: "Product unique identifier"
+        tests:
+          - not_null
+      - name: prd_key
+        description: "Product natural key (trimmed)"
+        tests:
+          - not_null
+      - name: prd_nm
+        tests:
+          - not_null
+      - name: prd_cost
+        tests:
+          - not_null
+      - name: prd_line
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Mountain', 'Road', 'Other Sales', 'Touring', 'n/a']
+
+  - name: cln_crm_sales_details
+    description: "Cleaned CRM sales – dates parsed, amounts recalculated for consistency"
+    columns:
+      - name: sls_ord_num
+        description: "Sales order number"
+        tests:
+          - not_null
+      - name: sls_prd_key
+        tests:
+          - not_null
+      - name: sls_cust_id
+        tests:
+          - not_null
+      - name: sls_quantity
+        tests:
+          - not_null
+
+  - name: cln_erp_cust_az12
+    description: "Cleaned ERP customer demographics – NAS prefix stripped, future birthdates nulled"
+    columns:
+      - name: cid
+        description: "Customer identifier (NAS prefix removed)"
+        tests:
+          - not_null
+      - name: gen
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Male', 'Female', 'n/a']
+
+  - name: cln_erp_loc_a101
+    description: "Cleaned ERP customer locations – country codes expanded to full names"
+    columns:
+      - name: cid
+        description: "Customer identifier (dashes removed)"
+        tests:
+          - not_null
+      - name: cntry
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Germany', 'United States', 'Australia', 'United Kingdom', 'France', 'Canada', 'n/a']
+
+  - name: cln_erp_px_cat_g1v2
+    description: "Cleaned ERP product categories – pass-through with no transformation"
+    columns:
+      - name: id
+        tests:
+          - not_null
+          - unique
+      - name: cat
+        tests:
+          - not_null
+      - name: subcat
+        tests:
+          - not_null

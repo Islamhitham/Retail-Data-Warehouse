@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: stg_crm_cust_info
+    description: "Staging layer for CRM customer info"
+    columns:
+      - name: cst_id
+        description: "Customer identifier"
+        tests:
+          - not_null
+      - name: cst_key
+        description: "Customer natural key"
+        tests:
+          - not_null
+      - name: cst_firstname
+        tests:
+          - not_null
+      - name: cst_lastname
+        tests:
+          - not_null
+
+  - name: stg_crm_prd_info
+    description: "Staging layer for CRM product info"
+    columns:
+      - name: prd_id
+        description: "Product identifier"
+        tests:
+          - not_null
+      - name: prd_key
+        description: "Product natural key"
+        tests:
+          - not_null
+      - name: prd_nm
+        description: "Product name"
+        tests:
+          - not_null
+
+  - name: stg_crm_sales_details
+    description: "Staging layer for CRM sales transactions"
+    columns:
+      - name: sls_ord_num
+        description: "Sales order number"
+        tests:
+          - not_null
+      - name: sls_prd_key
+        description: "Product key on the order"
+        tests:
+          - not_null
+      - name: sls_cust_id
+        description: "Customer ID on the order"
+        tests:
+          - not_null
+
+  - name: stg_erp_cust_az12
+    description: "Staging layer for ERP customer demographics"
+    columns:
+      - name: cid
+        description: "Customer identifier"
+        tests:
+          - not_null
+
+  - name: stg_erp_loc_a101
+    description: "Staging layer for ERP customer locations"
+    columns:
+      - name: cid
+        description: "Customer identifier"
+        tests:
+          - not_null
+      - name: cntry
+        description: "Country code"
+        tests:
+          - not_null
+
+  - name: stg_erp_px_cat_g1v2
+    description: "Staging layer for ERP product categories"
+    columns:
+      - name: id
+        description: "Category identifier"
+        tests:
+          - not_null
+      - name: cat
+        description: "Category name"
+        tests:
+          - not_null

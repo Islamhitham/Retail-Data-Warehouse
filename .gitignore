@@ -1,0 +1,39 @@
+target/
+dbt_packages/
+logs/
+dbt.log
+*.log
+
+# Airflow
+airflow.cfg
+unittests.cfg
+webserver_config.py
+airflow.db
+*.pid
+
+# Data and Secret Files
+dataset/
+*.csv
+profiles.yml
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv
+env.bak/
+venv.bak/
+
+# IDES and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store

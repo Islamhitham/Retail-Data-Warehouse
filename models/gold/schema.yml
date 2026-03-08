@@ -1,0 +1,90 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Gold dimension – one row per customer, enriched from CRM + ERP sources"
+    columns:
+      - name: customer_key
+        description: "Surrogate key generated via row_number()"
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Natural customer ID from CRM"
+        tests:
+          - not_null
+      - name: customer_number
+        description: "Customer business key"
+        tests:
+          - not_null
+      - name: first_name
+        tests:
+          - not_null
+      - name: last_name
+        tests:
+          - not_null
+      - name: gender
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Male', 'Female', 'n/a']
+      - name: marital_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Single', 'Married', 'n/a']
+
+  - name: dim_products
+    description: "Gold dimension – one row per active product (current SCD record only)"
+    columns:
+      - name: product_key
+        description: "Surrogate key generated via row_number()"
+        tests:
+          - not_null
+          - unique
+      - name: product_id
+        description: "Natural product ID from CRM"
+        tests:
+          - not_null
+      - name: product_number
+        description: "Product business key"
+        tests:
+          - not_null
+      - name: product_name
+        tests:
+          - not_null
+      - name: cost
+        tests:
+          - not_null
+
+  - name: fct_sales
+    description: "Gold fact table – one row per line item on a sales order"
+    columns:
+      - name: order_number
+        description: "Sales order number"
+        tests:
+          - not_null
+      - name: product_key
+        description: "FK → dim_products.product_key"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_key
+      - name: customer_key
+        description: "FK → dim_customers.customer_key"
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_key
+      - name: sales_amount
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null
+      - name: price
+        tests:
+          - not_null
